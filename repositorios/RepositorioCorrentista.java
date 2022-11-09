@@ -3,18 +3,25 @@ package srcContaCorrentista.repositorios;
 import srcContaCorrentista.entidades.Correntista;
 
 public class RepositorioCorrentista {
-    private Correntista[] listaCorrentista;
+    private Correntista[] listaCorrentista = new Correntista[10];
     private int tamanhoAtual = 0;
 
-    public void incluirCorrentista(Correntista correntista){
-        listaCorrentista[tamanhoAtual] = correntista;
+    public RepositorioCorrentista(){
+
+    }
+
+    public void incluirCorrentista(long cpf, String nome){
+        Correntista novo = new Correntista(cpf, nome);
+        listaCorrentista[tamanhoAtual] = novo;
         tamanhoAtual++;
     }
 
     public Correntista buscarPorCpf(long cpf){
-        for (Correntista item : listaCorrentista){
-            if (item.getCpf() == cpf){
-                return item;
+        for (int i = 0; i > listaCorrentista.length; i++){
+            if (listaCorrentista[i].getCpf() == cpf){
+                return listaCorrentista[i];
+            } else {
+                continue;
             }
         }
         return null;

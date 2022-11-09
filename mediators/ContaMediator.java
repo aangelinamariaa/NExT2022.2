@@ -24,23 +24,23 @@ public class ContaMediator {
         repositorioCorrentista = FabricaRepositorio.getRepositorioCorrentista();
     }
 
-    public int incluirConta(Conta conta, long cpf, double taxa){
+    public int incluirConta(int agencia, long conta, long cpf, int tipoConta, double taxa){
         if (cpf <= 0){
             return CPF_INVALIDO;
         } else {
             Correntista correAux = repositorioCorrentista.buscarPorCpf(cpf);
             if (correAux != null){
-                if (conta.getNumeroAgencia() <= 0){
+                if (agencia <= 0){
                     return AGENCIA_INVALIDA;
-                } else if (conta.getNumeroConta() <= 0){
+                } else if (conta <= 0){
                     return CONTA_INVALIDA;
                 } else {
-                    Conta contaAux = repositorioConta.buscarConta(conta.getNumeroAgencia(), conta.getNumeroConta());
-                    if (conta == contaAux){
+                    Conta contaAux = repositorioConta.buscarConta(agencia, conta);
+                    if (conta == contaAux.getNumeroConta()){
                         return CONTA_JA_EXISTE;
                     } else {
-                        conta.setCorrentista(correAux);
-                        repositorioConta.incluirConta(conta);
+                        contaAux.setCorrentista(correAux);
+                        repositorioConta.incluirConta(contaAux, tipoConta, taxa, correAux);
                     }
                 }
             } else {

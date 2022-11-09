@@ -9,6 +9,9 @@ public class Correntista{
         this.nome = nome;
     }
 
+    public Correntista() {
+    }
+
     public long getCpf(){
         return this.cpf;
     }

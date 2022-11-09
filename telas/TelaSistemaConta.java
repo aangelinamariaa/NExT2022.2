@@ -3,8 +3,6 @@ package srcContaCorrentista.telas;
 import java.util.Scanner;
 
 import srcContaCorrentista.entidades.Conta;
-import srcContaCorrentista.entidades.ContaCorrente;
-import srcContaCorrentista.entidades.ContaPoupanca;
 import srcContaCorrentista.entidades.Correntista;
 import srcContaCorrentista.mediators.ContaMediator;
 import srcContaCorrentista.mediators.CorrentistaMediator;
@@ -12,14 +10,12 @@ import srcContaCorrentista.mediators.CorrentistaMediator;
 public class TelaSistemaConta {
     private final Scanner ENTRADA = new Scanner(System.in);
     private ContaMediator mediadorConta;
-	
     private CorrentistaMediator mediadorCorrentista;
 	int retorno;
 
-    public TelaSistemaConta(CorrentistaMediator mediadorCorrentista){
+    public TelaSistemaConta(){
         mediadorConta = new ContaMediator();
-        //mediadorCorrentista = new CorrentistaMediator();
-		this.mediadorCorrentista = mediadorCorrentista;
+        mediadorCorrentista = new CorrentistaMediator();
     }
 
     public void executarTela(){
@@ -71,12 +67,10 @@ public class TelaSistemaConta {
 		long cpf = ENTRADA.nextLong();
 		System.out.println("Digite o nome do correntista");
 		String nome = ENTRADA.next();
-		Correntista novo = new Correntista(cpf, nome);
-		retorno = mediadorCorrentista.incluirCorrentista(novo);
+		retorno = mediadorCorrentista.incluirCorrentista(cpf, nome);
 	}
 
 	private void incluirConta(){
-		Conta nova = null;
 		double taxa = 0.00;
 		System.out.println("Digite 1 para Conta Corrente ou 2 para Conta Poupança");
 		int tipoConta = ENTRADA.nextInt();
@@ -87,15 +81,13 @@ public class TelaSistemaConta {
 		System.out.println("Digite o CPF do titular da conta:");
 		long cpf = ENTRADA.nextLong();
 		if (tipoConta == 1){
-			nova = new ContaCorrente(agencia, conta, null);
 			System.out.println("Informe a taxa tarifária:");
 			taxa = ENTRADA.nextDouble();
 		} else {
-			nova = new ContaPoupanca(agencia, conta, null);
 			System.out.println("Informe a taxa bonificadora:");
 			taxa = ENTRADA.nextDouble(); 
 		}
-		retorno = mediadorConta.incluirConta(nova, cpf, taxa);
+		retorno = mediadorConta.incluirConta(agencia, conta, cpf, tipoConta, taxa);
 	}
 
 	private void creditarValor(){
